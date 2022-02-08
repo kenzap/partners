@@ -2,7 +2,7 @@
 
 A Kenzap Cloud extension that draws analytics related to affiliate sales and marketing campaigns.
 
-![Kenzap Partners](https://cdn.kenzap.com/github/img/myticket-1.png)
+![Kenzap Partners](https://raw.githubusercontent.com/kenzap/k-partners/main/preview.png)
 
 <b>Extension intended to:</b>
 
