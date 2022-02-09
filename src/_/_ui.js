@@ -13,7 +13,7 @@ export const initHeader = (response) => {
       document.body.prepend(child);
 
       // run header scripts
-      let script = Function(document.querySelector("#k-script").innerHTML).call('test');
+      Function(document.querySelector("#k-script").innerHTML).call('test');
   }
 
   // load locales if present
