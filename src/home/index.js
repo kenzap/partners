@@ -626,9 +626,7 @@ const _this = {
                 // dataArr.push([el.ymd, el.ymd_count, el.ymd_coun, response['by_all'][i].ymd_count]); i++;
 
             }
-            // return;
-            // response['by_sessions'].forEach( el => {  });
-
+            
             let data = google.visualization.arrayToDataTable(dataArr);
 
             // var data = google.visualization.arrayToDataTable([
