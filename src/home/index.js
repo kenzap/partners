@@ -1075,7 +1075,7 @@ const _this = {
                     <li><a data-id="1000000" data-reports="1" class="sdr dropdown-item" href="#">${ __('Today') }</a></li>
                     <li><a data-id="1000444" data-reports="7" class="sdr dropdown-item" href="#">${ __('Last 7 days') }</a></li>
                     <li><a data-id="1000452" data-reports="30" class="sdr dropdown-item" href="#">${ __('Last 30 days') }</a></li>
-                    <li><a data-id="1000452"  data-reports="365" class="sdr dropdown-item" href="#">${ __('Last year') }</a></li>
+                    <li><a data-id="1000452"  data-reports="366" class="sdr dropdown-item" href="#">${ __('Last year') }</a></li>
                 </ul>
 			</div>`;
 
