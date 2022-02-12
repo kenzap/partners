@@ -1,6 +1,6 @@
 // js dependencies
-import { getSiteId, getCookie, parseApiError, onClick, initBreadcrumbs, toast, link, timeConverter } from "../_/_helpers.js"
-import { showLoader, hideLoader, initHeader, initFooter } from "../_/_ui.js"
+import { showLoader, hideLoader, initHeader, initFooter, initBreadcrumbs, parseApiError, getCookie, onClick, getSiteId, link } from '@kenzap/k-cloud';
+import { timeConverter } from "../_/_helpers.js"
 import { homeContent } from "../_/_cnt_home.js"
 
 // where everything happens
@@ -294,7 +294,7 @@ const _this = {
                 document.querySelector("#e_total_p").innerHTML = _this.state.formatter.format(response.balance);
     
                 // load coupons and referrals
-                if(typeof(response.referrals) !== 'undefined') _this.loadReferrals(response.time, response.referrals);
+                _this.loadReferrals(response);
 
             }else{
 
@@ -492,16 +492,19 @@ const _this = {
         // initiate breadcrumbs
         initBreadcrumbs(
             [
-                { link: link('https://dashboard.kenzap.cloud'), text: __('Dashboard') },
+                { link: link('https://dashboard.kenzap.cloud?launcher=k-partners'), text: __('Dashboard') },
                 { text: __('Partners Analytics') }
             ]
         );
     },
-    loadReferrals: (time, list) => {
+    loadReferrals: (response) => {
 
+        if(!response.referrals) response.referrals = [];
+
+        let time = response.time, list = response.referrals;
         let htmlc = '';
         let htmlr = '';
-        for (var i in list) {
+        for (let i in list) {
 
             if(list[i].type==1){
 
@@ -564,8 +567,8 @@ const _this = {
             }
         }
 
-        if (htmlc == ''){ document.querySelector("#coupons").innerHTML = '<div class="col-12 results">' + __('No coupons to display') + '</div>'; } else { document.querySelector("#coupons").innerHTML = '<div class="table-responsive table-nav"><table class="table table-hover table-borderless align-middle table-p-list">'+htmlc+'</table></div>'; }
-        if (htmlr == ''){ document.querySelector("#referrals").innerHTML = '<div class="col-12 results">' + __('No referral codes to display') + '</div>'; } else { document.querySelector("#referrals").innerHTML = '<div class="table-responsive table-nav"><table class="table table-hover table-borderless align-middle table-p-list">'+htmlr+'</table></div>'; }
+        if (htmlc == ''){ document.querySelector("#coupons").innerHTML = '<div class="col-12 results mt-5 mb-5 text-small">' + __('No coupons to display') + '</div>'; } else { document.querySelector("#coupons").innerHTML = '<div class="table-responsive table-nav"><table class="table table-hover table-borderless align-middle table-p-list">'+htmlc+'</table></div>'; }
+        if (htmlr == ''){ document.querySelector("#referrals").innerHTML = '<div class="col-12 results mt-5 mb-5 text-small">' + __('No referral codes to display') + '</div>'; } else { document.querySelector("#referrals").innerHTML = '<div class="table-responsive table-nav"><table class="table table-hover table-borderless align-middle table-p-list">'+htmlr+'</table></div>'; }
 
         onClick('.ref-menu', _this.listeners.referrals);
     },
@@ -581,7 +584,9 @@ const _this = {
     },
     drawByDevice: (response, cont) => {
 
-        if(response['by_country'] == null) return;
+        if(!response['by_country']) response['by_country'] = [];
+
+        if(response['by_country'].length == 0){ document.querySelector(cont).innerHTML = '<div class="col-12 results mt-5 mb-5 text-small">' + __('No data to display') + '</div>'; return; } 
 
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawChart);
@@ -604,7 +609,9 @@ const _this = {
     },
     drawBySessions: (response, cont) => {
         
-        if(response['by_sessions'] == null) return;
+        if(!response['by_sessions']) response['by_sessions'] = [];
+
+        if(response['by_sessions'].length == 0){ document.querySelector(cont).innerHTML = '<div class="col-12 results mt-5 mb-5 text-small">' + __('No data to display') + '</div>'; return; } 
 
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(() => {
@@ -668,7 +675,9 @@ const _this = {
     },
     drawTopViews: (response, cont) => {
 
-        if(response['top_views'] == null) return;
+        if(!response['top_views']) response['top_views'] = [];
+
+        if(response['top_views'].length == 0){ document.querySelector(cont).innerHTML = '<div class="col-12 results mt-5 mb-5 text-small">' + __('No data to display') + '</div>'; return; } 
 
         let html = `
         <div class="table-responsive table-nav">
@@ -682,6 +691,8 @@ const _this = {
                 <tbody class="list">`;
 
                 response['top_views'].map( el => {
+
+                    if(el.url)
                     html += `
                         <tr>
                             <td>
@@ -1075,7 +1086,7 @@ const _this = {
                     <li><a data-id="1000000" data-reports="1" class="sdr dropdown-item" href="#">${ __('Today') }</a></li>
                     <li><a data-id="1000444" data-reports="7" class="sdr dropdown-item" href="#">${ __('Last 7 days') }</a></li>
                     <li><a data-id="1000452" data-reports="30" class="sdr dropdown-item" href="#">${ __('Last 30 days') }</a></li>
-                    <li><a data-id="1000452"  data-reports="366" class="sdr dropdown-item" href="#">${ __('Last year') }</a></li>
+                    <li><a data-id="1000452"  data-reports="365" class="sdr dropdown-item" href="#">${ __('Last year') }</a></li>
                 </ul>
 			</div>`;
 
