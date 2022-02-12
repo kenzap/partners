@@ -3,7 +3,6 @@ import { getSiteId, getCookie, parseApiError, onClick, initBreadcrumbs, toast, l
 import { showLoader, hideLoader, initHeader, initFooter } from "../_/_ui.js"
 import { homeContent } from "../_/_cnt_home.js"
 
-
 // where everything happens
 const _this = {
 
@@ -142,7 +141,6 @@ const _this = {
             style: 'currency',
             currency: "USD",
         }),
-        ajaxQueue: 0,
         modalCont: null,
     },
     init: () => {
